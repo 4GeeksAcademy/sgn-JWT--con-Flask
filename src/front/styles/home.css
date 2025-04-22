@@ -5,3 +5,11 @@
     one more css for each page that will contain the selected used 
     on that page only (the ones not reused in other pages).
 */
+form {
+    width: 800px; /* Ajusta el ancho del formulario */
+    margin: 0 auto; /* Centra el formulario horizontalmente */
+    padding: 10px; /* Agrega un poco de espacio interno */
+    border: 1px solid #ccc; /* Agrega un borde para mejor visibilidad */
+    border-radius: 5px; /* Bordes redondeados */
+    background-color: #f9f9f9; /* Fondo claro */
+}

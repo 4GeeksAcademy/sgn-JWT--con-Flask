@@ -1,19 +1,14 @@
 import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
-import "../../styles/home.css";
 
-export const Home = () => {
+export const Login = () => {
 	const { store, actions } = useContext(Context);
-	
 
 	const [formData, setFormData] = useState({
-		name: "",
 		email: "",
 		password: ""
 	});
-
-	
 
 	const handleChange = (e) => {
 		setFormData({
@@ -21,35 +16,39 @@ export const Home = () => {
 			[e.target.name]: e.target.value
 		});
 	};
-	
-	const handleSubmit = (e) => {
 
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (!formData.name || !formData.email || !formData.password) {
-			alert("Todos los campos son obligatorios");
-			return;
+
+		try {
+			const response = await fetch(process.env.BACKEND_URL + "/api/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(formData)
+			});
+
+			const data = await response.json();
+
+			if (response.ok) {
+				console.log("Token recibido:", data.access_token);
+				// Guardar el token en localStorage o contexto
+				localStorage.setItem("token", data.access_token);
+				alert("Login exitoso ✅");
+			} else {
+				alert("Error: " + data.error || data.Error);
+			}
+		} catch (error) {
+			console.error("Error al hacer login:", error);
+			alert("Ocurrió un error al intentar iniciar sesión");
 		}
-		console.log("Datos enviados:", formData);
-		actions.signup(formData.email, formData.password, formData.name);
-		actions.login(formData.email, formData.password);
-		
 	};
 
 	return (
 		<div className="text-center mt-5">
+			<h2>Login</h2>
 			<form onSubmit={handleSubmit}>
-			<div className="mb-3">
-					<label htmlFor="name" className="form-label">Name</label>
-					<input
-						type="text"
-						className="form-control"
-						id="name"
-						name="name"
-						value={formData.name}
-						onChange={handleChange}
-					/>
-					<div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
-				</div>
 				<div className="mb-3">
 					<label htmlFor="email" className="form-label">Email address</label>
 					<input
@@ -57,11 +56,9 @@ export const Home = () => {
 						className="form-control"
 						id="email"
 						name="email"
-						aria-describedby="emailHelp"
 						value={formData.email}
 						onChange={handleChange}
 					/>
-					<div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
 				</div>
 				<div className="mb-3">
 					<label htmlFor="password" className="form-label">Password</label>
@@ -74,8 +71,7 @@ export const Home = () => {
 						onChange={handleChange}
 					/>
 				</div>
-			
-				<button type="submit" className="btn btn-primary">Submit</button>
+				<button type="submit" className="btn btn-primary">Login</button>
 			</form>
 		</div>
 	);
