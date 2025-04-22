@@ -133,9 +133,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logout: () => {
 				localStorage.removeItem("token");
 				setStore({ user: {} });
-				alert("Logout exitoso");
+				alert("Hasta pronto");
 			}
-		} // ← cierre correcto del bloque actions
+		} 
 	};
 };
 export default getState;

@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export const Login = () => {
 	const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
 
 	const [formData, setFormData] = useState({
 		email: "",
@@ -33,9 +34,10 @@ export const Login = () => {
 
 			if (response.ok) {
 				console.log("Token recibido:", data.access_token);
-				// Guardar el token en localStorage o contexto
 				localStorage.setItem("token", data.access_token);
 				alert("Login exitoso ✅");
+				actions.getProfile();
+				navigate("/profile");
 			} else {
 				alert("Error: " + data.error || data.Error);
 			}
@@ -46,8 +48,8 @@ export const Login = () => {
 	};
 
 	return (
-		<div className="text-center mt-5">
-			<h2>Login</h2>
+		<div className="mt-5">
+			<h2 className="loginUser">Login</h2>
 			<form onSubmit={handleSubmit}>
 				<div className="mb-3">
 					<label htmlFor="email" className="form-label">Email address</label>
@@ -73,9 +75,7 @@ export const Login = () => {
 				</div>
 				<button type="submit" className="btn btn-primary">Login</button>
 			</form>
-			<h2>Información del usuario Restringida</h2>
-			<button onClick={()=> actions.getProfile()}>Obtener información restringida </button>
-			<h5> Nombre de ususario: {store.user.name}</h5>
+			
 		</div>
 	);
 };

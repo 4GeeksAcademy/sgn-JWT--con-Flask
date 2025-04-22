@@ -36,9 +36,11 @@ export const Home = () => {
 	};
 
 	return (
-		<div className="text-center mt-5">
+		<div className="mt-5">
+			<h2 text-center>Ingresa tus datos por favor</h2>
 			<form onSubmit={handleSubmit}>
 			<div className="mb-3">
+			
 					<label htmlFor="name" className="form-label">Name</label>
 					<input
 						type="text"
