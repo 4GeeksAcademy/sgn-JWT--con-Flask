@@ -31,7 +31,7 @@ export const Home = () => {
 		}
 		console.log("Datos enviados:", formData);
 		actions.signup(formData.email, formData.password, formData.name);
-		actions.login(formData.email, formData.password);
+		// actions.login(formData.email, formData.password);
 		
 	};
 

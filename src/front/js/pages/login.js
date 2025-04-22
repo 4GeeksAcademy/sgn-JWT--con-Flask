@@ -73,6 +73,9 @@ export const Login = () => {
 				</div>
 				<button type="submit" className="btn btn-primary">Login</button>
 			</form>
+			<h2>Información del usuario Restringida</h2>
+			<button onClick={()=> actions.getProfile()}>Obtener información restringida </button>
+			<h5> Nombre de ususario: {store.user.name}</h5>
 		</div>
 	);
 };

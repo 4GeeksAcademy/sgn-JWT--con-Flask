@@ -106,13 +106,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			getProfile: async () => {
 				const token = localStorage.getItem("token");
+				console.log("Token desde getProfile:", token);
 				if (!token) {
 					alert("No hay token, por favor inicia sesión");
 					return;
 				}
 
 				try {
-					const response = await fetch(process.env.BACKEND_URL + "/api/users", {
+					const response = await fetch(process.env.BACKEND_URL + "/api/users/me", {
 						headers: {
 							"Authorization": "Bearer " + token
 						}
@@ -120,7 +121,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					if (response.ok) {
 						const data = await response.json();
-						setStore({ user: data });
+						console.log("Perfil del usuario:", data);
+						setStore({...getStore(), user: data });
 					} else {
 						alert("Error al obtener el perfil");
 					}
